@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+      http://www.liquibase.org/xml/ns/pro
+      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+    <changeSet id="1" author="nusaiba">
+        <sql>
+            CREATE TABLE users(
+                id SERIAL PRIMARY KEY NOT NULL,
+                name VARCHAR(200) NOT NULL,
+                username VARCHAR(200) NOT NULL,
+                password VARCHAR(200) NOT NULL,
+                create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+                role VARCHAR(20) NOT NULL
+            );
+        </sql>
+        <rollback>
+            DROP TABLE users;
+        </rollback>
+    </changeSet>
+    <changeSet id="2" author="nusaiba">
+        <sql>
+            CREATE TABLE todo_item(
+                id SERIAL PRIMARY KEY NOT NULL,
+                user_id BIGINT NOT NULL,
+                item VARCHAR(300) NOT NULL,
+                done BOOLEAN NOT NULL DEFAULT false,
+                create_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+                update_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+                CONSTRAINT fk_todo_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
+            );
+        </sql>
+        <rollback>
+            DROP TABLE todo_item;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
