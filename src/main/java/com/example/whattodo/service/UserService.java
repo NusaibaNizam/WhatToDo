@@ -24,6 +24,7 @@ public class UserService implements IUserService{
 
     @Override
     public ManOfAction saveUser(@NotNull ManOfAction user) {
+        user.setRole(Role.ROLE_USER);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreateDate(LocalDateTime.now());
         return userRepository.save(user);
